@@ -2,8 +2,8 @@ import '../globals.css';
 
 import { Analytics } from '@vercel/analytics/react';
 import { Suspense } from 'react';
-import Nav from '../nav';
-import Toast from '../toast';
+import Nav from './nav';
+import Toast from './toast';
 
 export const metadata = {
   title: 'Room Rentals - Motels',
@@ -23,7 +23,7 @@ export default async function RootLayout({
             {children}
             <Analytics />
         </Suspense>
-        <Toast />
+        {/* <Toast /> */}
     </>
   );
 }

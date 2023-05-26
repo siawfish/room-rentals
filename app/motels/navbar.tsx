@@ -6,7 +6,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
-import { convertRouteToString } from './utils/helpers';
+import { convertRouteToString } from '../utils/helpers';
 
 const navigation = [
   { name: 'Features', subItems: [
@@ -49,7 +49,7 @@ export default function Navbar({ user }: { user: any }) {
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                   <a
                     key={`Dashboard`}
-                    href={`/dashboard`}
+                    href={`/motels/dashboard`}
                     className={classNames(
                       pathname === '/dashboard'
                         ? 'border-slate-500 text-gray-900'
