@@ -10,6 +10,6 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token }:any) => !!token?.data?.token,
-    },
+    }
   }
 )
