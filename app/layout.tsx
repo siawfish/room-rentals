@@ -1,6 +1,7 @@
 import './globals.css';
-
 import { Analytics } from '@vercel/analytics/react';
+import Providers from './providers';
+import Alert from './components/Alert';
 
 export const metadata = {
   title: 'Room Rentals',
@@ -15,9 +16,11 @@ export default async function RootLayout({
   return (
     <html lang="en" className="h-full bg-gray-50">
       <body className="h-full">
-        {children}
+        <Providers>
+          {children}
+        </Providers>
+        <Alert />
         <Analytics />
-        {/* <Toast /> */}
       </body>
     </html>
   );

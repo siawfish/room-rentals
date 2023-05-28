@@ -51,12 +51,12 @@ export default function Navbar({ user }: { user: any }) {
                     key={`Dashboard`}
                     href={`/motels/dashboard`}
                     className={classNames(
-                      pathname === '/dashboard'
+                      pathname === '/motels/dashboard'
                         ? 'border-slate-500 text-gray-900'
                         : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
                       'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
                     )}
-                    aria-current={pathname === '/dashboard' ? 'page' : undefined}
+                    aria-current={pathname === '/motels/dashboard' ? 'page' : undefined}
                   >
                     {`Dashboard`}
                   </a>
@@ -117,13 +117,25 @@ export default function Navbar({ user }: { user: any }) {
                   <div>
                     <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
                       <span className="sr-only">Open user menu</span>
-                      <Image
-                        className="h-8 w-8 rounded-full"
-                        src={user?.image || 'https://avatar.vercel.sh/leerob'}
-                        height={32}
-                        width={32}
-                        alt={`${user?.name || 'placeholder'} avatar`}
-                      />
+                      <div className="flex items-center px-4">
+                        <div className="mr-3">
+                          <div className="text-start text-base font-medium text-gray-800">
+                            {`${user.first_name} ${user.other_names}`}
+                          </div>
+                          <div className="text-sm font-medium text-gray-500">
+                            {user.email}
+                          </div>
+                        </div>
+                        <div className="flex-shrink-0">
+                          <Image
+                            className="h-8 w-8 rounded-full"
+                            src={user.image || 'https://avatar.vercel.sh/leerob'}
+                            height={32}
+                            width={32}
+                            alt={`${user.first_name} ${user.other_names} avatar`}
+                          />
+                        </div>
+                      </div>
                     </Menu.Button>
                   </div>
                   <Transition
@@ -135,7 +147,7 @@ export default function Navbar({ user }: { user: any }) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="right-0 absolute z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {user ? (
                         <Menu.Item>
                           {({ active }) => (
@@ -187,72 +199,53 @@ export default function Navbar({ user }: { user: any }) {
               <Disclosure.Button
                 key={`Dashboard`}
                 as="a"
-                href={`/dashboard`}
+                href={`/motels/dashboard`}
                 className={classNames(
-                  pathname === `dashboard`
+                  pathname === `/motels/dashboard`
                     ? 'bg-slate-50 border-slate-500 text-slate-700'
                     : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
                   'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
                 )}
-                aria-current={pathname === `dashboard` ? 'page' : undefined}
+                aria-current={pathname === `/motels/dashboard` ? 'page' : undefined}
               >
                 {`Dashboard`}
               </Disclosure.Button>
-                {
-                  navigation.map((item, i) => (
-                    <Menu key={item?.name} as="div" className="h-full relative">
-                      <Menu.Button as={Fragment}>
-                        <a
-                          key={item?.name}
-                          href={`#`}
-                          className={classNames(
-                            subLinks?.[i].includes(convertRouteToString(pathname))
-                              ? 'border-slate-500 text-gray-900'
-                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                            'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium h-full'
-                          )}
-                          aria-current={pathname === '/dashboard' || pathname === '/users' || pathname === '/rentals' || pathname === '/rooms' || pathname === '/guests' ? 'page' : undefined}
-                        >
-                          {item?.name}
-                        </a>
-                      </Menu.Button>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          {
-                            item?.subItems?.map((subItem) => (
-                              <Menu.Item key={subItem?.name}>
-                                {({ active }) => (
-                                  <Disclosure.Button
-                                    key={subItem.name}
-                                    as="a"
-                                    href={subItem.href}
-                                    className={classNames(
-                                      pathname === subItem.href
-                                        ? 'bg-slate-50 border-slate-500 text-slate-700'
-                                        : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                                      'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                                    )}
-                                    aria-current={pathname === subItem.href ? 'page' : undefined}
-                                  >
-                                    {item.name}
-                                  </Disclosure.Button>
-                                )}
-                              </Menu.Item>
-                            ))
-                          }
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
-                  ))
-                }
+              {
+                navigation?.[0].subItems?.map((item) => (
+                  <Disclosure.Button
+                    key={item.name}
+                    as="a"
+                    href={item.href}
+                    className={classNames(
+                      pathname === item.href
+                        ? 'bg-slate-50 border-slate-500 text-slate-700'
+                        : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+                      'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                    )}
+                    aria-current={pathname === item.href ? 'page' : undefined}
+                  >
+                    {item.name}
+                  </Disclosure.Button>
+                ))
+              }
+              {
+                navigation?.[1].subItems?.map((item) => (
+                  <Disclosure.Button
+                    key={item.name}
+                    as="a"
+                    href={item.href}
+                    className={classNames(
+                      pathname === item.href
+                        ? 'bg-slate-50 border-slate-500 text-slate-700'
+                        : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+                      'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                    )}
+                    aria-current={pathname === item.href ? 'page' : undefined}
+                  >
+                    {item.name}
+                  </Disclosure.Button>
+                ))
+              }
             </div>
             <div className="border-t border-gray-200 pt-4 pb-3">
               {user ? (
@@ -261,15 +254,15 @@ export default function Navbar({ user }: { user: any }) {
                     <div className="flex-shrink-0">
                       <Image
                         className="h-8 w-8 rounded-full"
-                        src={user.image}
+                        src={user.image || 'https://avatar.vercel.sh/leerob'}
                         height={32}
                         width={32}
-                        alt={`${user.name} avatar`}
+                        alt={`${user.first_name} ${user.other_names} avatar`}
                       />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium text-gray-800">
-                        {user.name}
+                        {`${user.first_name} ${user.other_names}`}
                       </div>
                       <div className="text-sm font-medium text-gray-500">
                         {user.email}

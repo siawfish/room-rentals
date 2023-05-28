@@ -3,7 +3,7 @@ import '../globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { Suspense } from 'react';
 import Nav from './nav';
-import Toast from './toast';
+// import Toast from '../components/toast';
 
 export const metadata = {
   title: 'Room Rentals - Motels',
