@@ -1,53 +1,46 @@
-import { Card, Flex, Grid, Metric, Text } from '@tremor/react'
+import { Grid, Text, Title, Flex } from '@tremor/react'
 import React from 'react'
+import Search from '../components/Search'
+import MotelCard, { MotelType } from '../components/MotelCard'
+import Button from '../components/Button';
+import Link from 'next/link';
 
-export default function Motels() {
-    const motels = [
-        {
-            title: 'Siaw Motel',
-            metric: '1,072',
-            metricPrev: '856',
-        },
-        {
-            title: 'Kofi Motel',
-            metric: '$ 40,598',
-            metricPrev: '$ 45,564',
-        },
-        {
-            title: 'Amanor Motel',
-            metric: '1,072',
-            metricPrev: '856',
-        },
-        {
-            title: 'Kwame Motel',
-            metric: '$ 40,598',
-            metricPrev: '$ 45,564',
-        },
-        {
-            title: 'Kwabena Motel',
-            metric: '1,072',
-            metricPrev: '856',
-        }
-    ]
+async function getData() {
+    const res = await fetch(`${process.env.BASE_URL}/api/get/motels`, {
+        cache: 'no-cache'
+    });
+    if (!res.ok) {
+        throw new Error('Failed to fetch data');
+    }
+    return res.json();
+}
+
+export default async function Motels() {
+    const data = await getData();
     return (
         <main className="p-4 md:p-10 mx-auto max-w-7xl">
-            <Grid className="gap-6" numColsSm={2} numColsLg={4}>
-                {motels.map((item) => (
-                    <Card key={item.title}>
-                        <Flex alignItems="start">
-                            <Text>{item.title}</Text>
-                        </Flex>
-                        <Flex
-                            className="space-x-3 truncate"
-                            justifyContent="start"
-                            alignItems="baseline"
-                        >
-                            <Metric>{item.metric}</Metric>
-                            <Text className="truncate">from {item.metricPrev}</Text>
-                        </Flex>
-                    </Card>
+            <Flex>
+                <div>
+                    <Title>Motels</Title>
+                    <Text>
+                        Click on a motel to view and manage its rooms.
+                    </Text>
+                    <Search placeholder="Search motel by name..." />
+                </div>
+                <Link href="/motels/form">
+                    <Button className="hidden md:block text-white text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add Motel </Button>
+                </Link>
+            </Flex>
+            <Grid className="gap-6 mt-6 mb-6" numCols={2} numColsMd={3} numColsLg={4}>
+                {data?.map((item:MotelType) => (
+                    <MotelCard key={item?.id} motel={item} />
                 ))}
             </Grid>
+            <div className="md:hidden absolute left-0 w-full flex flex-row align-center justify-center">
+                <Link href="/motels/form">
+                    <Button className="text-white text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add Motel </Button>
+                </Link>
+            </div>
         </main>
     )
 }

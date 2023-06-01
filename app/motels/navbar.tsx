@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { signIn, signOut } from 'next-auth/react';
@@ -28,7 +28,16 @@ function classNames(...classes: string[]) {
 
 export default function Navbar({ user }: { user: any }) {
   const pathname = usePathname();
+  const params = useParams();
   const subLinks = navigation.map((item) => item?.subItems?.map((subItem) => subItem?.href))
+
+  const showNavLinks = () => {
+    if(pathname === '/motels') return false;
+    if(pathname === '/motels/form') return false;
+    return true;
+  }
+
+  const id = params?.id;
 
   return (
     <Disclosure as="nav" className="bg-white shadow-sm">
@@ -46,71 +55,74 @@ export default function Navbar({ user }: { user: any }) {
                     className="rounded-full"
                   />
                 </div>
-                <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-                  <a
-                    key={`Dashboard`}
-                    href={`/motels/dashboard`}
-                    className={classNames(
-                      pathname === '/motels/dashboard'
-                        ? 'border-slate-500 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
-                    )}
-                    aria-current={pathname === '/motels/dashboard' ? 'page' : undefined}
-                  >
-                    {`Dashboard`}
-                  </a>
-                  {
-                    navigation.map((item, i) => (
-                      <Menu key={item?.name} as="div" className="h-full relative">
-                        <Menu.Button as={Fragment}>
-                          <a
-                            key={item?.name}
-                            href={`#`}
-                            className={classNames(
-                              subLinks?.[i].includes(convertRouteToString(pathname))
-                                ? 'border-slate-500 text-gray-900'
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                              'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium h-full'
-                            )}
-                            aria-current={pathname === '/dashboard' || pathname === '/users' || pathname === '/rentals' || pathname === '/rooms' || pathname === '/guests' ? 'page' : undefined}
+                {
+                  showNavLinks?.() &&
+                  <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+                    <a
+                      key={`Dashboard`}
+                      href={`/motels/${convertRouteToString(id as string)}`}
+                      className={classNames(
+                        pathname === `/motels/${convertRouteToString(id as string)}`
+                          ? 'border-slate-500 text-gray-900'
+                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                        'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+                      )}
+                      aria-current={pathname === `/motels/${convertRouteToString(id as string)}` ? 'page' : undefined}
+                    >
+                      {`Dashboard`}
+                    </a>
+                    {
+                      navigation.map((item, i) => (
+                        <Menu key={item?.name} as="div" className="h-full relative">
+                          <Menu.Button as={Fragment}>
+                            <a
+                              key={item?.name}
+                              href={`#`}
+                              className={classNames(
+                                subLinks?.[i].includes(convertRouteToString(pathname))
+                                  ? 'border-slate-500 text-gray-900'
+                                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                                'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium h-full'
+                              )}
+                              aria-current={pathname === '/users' || pathname === '/rentals' || pathname === '/rooms' || pathname === '/guests' ? 'page' : undefined}
+                            >
+                              {item?.name}
+                            </a>
+                          </Menu.Button>
+                          <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-200"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
                           >
-                            {item?.name}
-                          </a>
-                        </Menu.Button>
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-200"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {
-                              item?.subItems?.map((subItem) => (
-                                <Menu.Item key={subItem?.name}>
-                                  {({ active }) => (
-                                    <a
-                                      href={subItem?.href}
-                                      className={classNames(
-                                        pathname === subItem?.href ? 'bg-gray-100' : '',
-                                        'block px-4 py-2 text-sm text-gray-700'
-                                      )}
-                                    >
-                                      {subItem?.name}
-                                    </a>
-                                  )}
-                                </Menu.Item>
-                              ))
-                            }
-                          </Menu.Items>
-                        </Transition>
-                      </Menu>
-                    ))
-                  }
-                </div>
+                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                              {
+                                item?.subItems?.map((subItem) => (
+                                  <Menu.Item key={subItem?.name}>
+                                    {({ active }) => (
+                                      <a
+                                        href={subItem?.href}
+                                        className={classNames(
+                                          pathname === subItem?.href ? 'bg-gray-100' : '',
+                                          'block px-4 py-2 text-sm text-gray-700'
+                                        )}
+                                      >
+                                        {subItem?.name}
+                                      </a>
+                                    )}
+                                  </Menu.Item>
+                                ))
+                              }
+                            </Menu.Items>
+                          </Transition>
+                        </Menu>
+                      ))
+                    }
+                  </div>
+                }
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
                 <Menu as="div" className="relative ml-3">
@@ -195,58 +207,61 @@ export default function Navbar({ user }: { user: any }) {
           </div>
 
           <Disclosure.Panel className="sm:hidden focus:outline-none active:outline-none outline-none">
-            <div className="space-y-1 pt-2 pb-3">
-              <Disclosure.Button
-                key={`Dashboard`}
-                as="a"
-                href={`/motels/dashboard`}
-                className={classNames(
-                  pathname === `/motels/dashboard`
-                    ? 'bg-slate-50 border-slate-500 text-slate-700'
-                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                  'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                )}
-                aria-current={pathname === `/motels/dashboard` ? 'page' : undefined}
-              >
-                {`Dashboard`}
-              </Disclosure.Button>
-              {
-                navigation?.[0].subItems?.map((item) => (
-                  <Disclosure.Button
-                    key={item.name}
-                    as="a"
-                    href={item.href}
-                    className={classNames(
-                      pathname === item.href
-                        ? 'bg-slate-50 border-slate-500 text-slate-700'
-                        : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                      'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                    )}
-                    aria-current={pathname === item.href ? 'page' : undefined}
-                  >
-                    {item.name}
-                  </Disclosure.Button>
-                ))
-              }
-              {
-                navigation?.[1].subItems?.map((item) => (
-                  <Disclosure.Button
-                    key={item.name}
-                    as="a"
-                    href={item.href}
-                    className={classNames(
-                      pathname === item.href
-                        ? 'bg-slate-50 border-slate-500 text-slate-700'
-                        : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                      'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                    )}
-                    aria-current={pathname === item.href ? 'page' : undefined}
-                  >
-                    {item.name}
-                  </Disclosure.Button>
-                ))
-              }
-            </div>
+            {
+              showNavLinks?.() &&
+              <div className="space-y-1 pt-2 pb-3">
+                <Disclosure.Button
+                  key={`Dashboard`}
+                  as="a"
+                  href={`/motels/${convertRouteToString(id as string)}`}
+                  className={classNames(
+                    pathname === `/motels/${convertRouteToString(id as string)}`
+                      ? 'bg-slate-50 border-slate-500 text-slate-700'
+                      : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+                    'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                  )}
+                  aria-current={pathname === `/motels/${convertRouteToString(id as string)}` ? 'page' : undefined}
+                >
+                  {`Dashboard`}
+                </Disclosure.Button>
+                {
+                  navigation?.[0].subItems?.map((item) => (
+                    <Disclosure.Button
+                      key={item.name}
+                      as="a"
+                      href={item.href}
+                      className={classNames(
+                        pathname === item.href
+                          ? 'bg-slate-50 border-slate-500 text-slate-700'
+                          : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+                        'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                      )}
+                      aria-current={pathname === item.href ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </Disclosure.Button>
+                  ))
+                }
+                {
+                  navigation?.[1].subItems?.map((item) => (
+                    <Disclosure.Button
+                      key={item.name}
+                      as="a"
+                      href={item.href}
+                      className={classNames(
+                        pathname === item.href
+                          ? 'bg-slate-50 border-slate-500 text-slate-700'
+                          : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+                        'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                      )}
+                      aria-current={pathname === item.href ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </Disclosure.Button>
+                  ))
+                }
+              </div>
+            }
             <div className="border-t border-gray-200 pt-4 pb-3">
               {user ? (
                 <>

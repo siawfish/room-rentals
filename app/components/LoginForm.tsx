@@ -76,7 +76,7 @@ export default function LoginForm() {
 
                     <div>
                         <Button
-                            type="button"
+                            type="submit"
                             disabled={isSubmitting}
                             isLoading={isSubmitting}
                             onClick={handleSubmit}
