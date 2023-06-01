@@ -1,6 +1,6 @@
 import { Card, Title, Text } from '@tremor/react';
-import Search from '../../components/Search';
-import ListTable from '../table';
+import Search from '../../../components/Search';
+import ListTable from '../../table';
 
 export const dynamic = 'force-dynamic';
 
