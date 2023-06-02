@@ -34,7 +34,7 @@ export default function MotelForm() {
             resetForm?.()
             router.push('/motels');
         } catch (error:any) {
-            toast.error(error?.response?.data?.message ?? error?.message ?? 'Something went wrong')
+            toast.error(error?.response?.data?.data?.join(', ') ?? error?.message ?? 'Something went wrong')
         } finally {
             setSubmitting(false);
         }
@@ -74,6 +74,7 @@ export default function MotelForm() {
                             disabled={isSubmitting}
                             isLoading={isSubmitting}
                             onClick={handleSubmit}
+                            loadingText='Creating Motel...'
                         >
                             Create Motel
                         </Button>

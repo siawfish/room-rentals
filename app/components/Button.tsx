@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react'
+import { Button } from "@tremor/react";
 
 interface Props {
     className?: string;
@@ -7,17 +10,19 @@ interface Props {
     onClick?: () => void;
     isLoading?: boolean;
     disabled?: boolean;
+    loadingText?: string;
 }
 
-export default function Button({
-    className="w-full text-white text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[220px] h-10 flex items-center justify-center whitespace-nowrap",
+export default function CustomButton({
+    className="text-white text-[13px] font-mono bg-black border-none hover:bg-gray-700 transition-all rounded-md w-full h-10 flex items-center justify-center whitespace-nowrap",
     type="submit",
     children="Sign in",
     onClick,
     isLoading,
-    disabled
+    disabled,
+    loadingText
 }:Props) {
     return (
-        <button disabled={isLoading || disabled} onClick={onClick} type={type} className={className}>{children}</button>
+        <Button loadingText={loadingText} loading={isLoading} disabled={isLoading || disabled} onClick={onClick} type={type} className={className}>{children}</Button>
     )
 }

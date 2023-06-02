@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import Button from './Button';
 import Input from './Input';
+import { useRouter } from 'next/navigation';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -24,6 +25,7 @@ interface FormValues {
 }
 
 export default function LoginForm() {
+    const router = useRouter();
 
     const onSubmit = async (values:FormValues, { setSubmitting }:any) => {
         try {
@@ -35,10 +37,10 @@ export default function LoginForm() {
             if(!res?.ok) throw new Error('Oops! Authentication failed, please try again.')
             toast.success('You are successfully signed in! You will be redirected to dashboard in 3 seconds.');
             setTimeout(() => {
-                window.location.href = `${window.location.origin}/motels`;
+                router.push('/motels');
             }, 3000);
         } catch (error:any) {
-            toast.error(error?.message);
+            toast.error(error?.response?.data?.data?.join(', ') ?? error?.message ?? 'Something went wrong');
         } finally {
             setSubmitting(false);
         }
@@ -79,6 +81,7 @@ export default function LoginForm() {
                             type="submit"
                             disabled={isSubmitting}
                             isLoading={isSubmitting}
+                            loadingText='Signing in...'
                             onClick={handleSubmit}
                         />
                     </div>

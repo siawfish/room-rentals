@@ -22,29 +22,31 @@ export default function MotelCard({
     motel,
 }:Props) {
     return (
-        <Card className="p-3 md:p-5 relative">
-            <Link className="hidden absolute right-4 md:block" href={`/motels/form?id=${motel?.id}`}>
-                <Image width={25} height={25} src={Edit} alt="motel" />
-            </Link>
-            <Flex alignItems="start">
-                <Text>{motel?.location}</Text>
-            </Flex>
-            <Flex
-                className="truncate"
-                justifyContent="start"
-                alignItems="baseline"
-            >
-                <Metric className="hidden md:block">{motel?.motel_name}</Metric>
-                <Title className="md:hidden block text-left">{motel?.motel_name}</Title>
-            </Flex>
-            <Flex alignItems="start" className="hidden md:block mt-2">
-                <Text className="truncate">Created on {format(new Date (motel?.created_at??""), "dd-MM-yyy")}</Text>
-            </Flex>
-            <Flex alignItems="start" className="md:hidden mt-2">
-                <Link href={`/motels/form?id=${motel?.id}`}>
-                    <LinkButton className="text-xs" label="Edit" />
+        <Link href={`/motels/${motel?.id}`}>
+            <Card className="p-3 md:p-5 relative">
+                <Link className="hidden absolute right-4 md:block" href={`/motels/form?id=${motel?.id}`}>
+                    <Image width={25} height={25} src={Edit} alt="motel" />
                 </Link>
-            </Flex>
-        </Card>
+                <Flex alignItems="start">
+                    <Text>{motel?.location}</Text>
+                </Flex>
+                <Flex
+                    className="truncate"
+                    justifyContent="start"
+                    alignItems="baseline"
+                >
+                    <Metric className="hidden md:block">{motel?.motel_name}</Metric>
+                    <Title className="md:hidden block text-left">{motel?.motel_name}</Title>
+                </Flex>
+                <Flex alignItems="start" className="hidden md:block mt-2">
+                    <Text className="truncate">Created on {format(new Date (motel?.created_at??""), "dd-MM-yyy")}</Text>
+                </Flex>
+                <Flex alignItems="start" className="md:hidden mt-2">
+                    <Link href={`/motels/form?id=${motel?.id}`}>
+                        <LinkButton className="text-xs" label="Edit" />
+                    </Link>
+                </Flex>
+            </Card>
+        </Link>
     )
 }

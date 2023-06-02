@@ -8,20 +8,6 @@ import { signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { convertRouteToString } from '../utils/helpers';
 
-const navigation = [
-  { name: 'Features', subItems: [
-    { name: 'Users', href: '/motels/users' },
-    { name: 'Rentals', href: '/motels/rentals' },
-    { name: 'Rooms', href: '/motels/rooms' },
-    { name: 'Guests', href: '/motels/guests' }
-  ] },
-  { name: 'Financials', subItems: [
-    { name: 'Refunds', href: '/motels/refunds' },
-    { name: 'Expenses', href: '/motels/expenses' },
-    { name: 'Payments', href: '/motels/payments' }
-  ] },
-];
-
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
@@ -29,6 +15,21 @@ function classNames(...classes: string[]) {
 export default function Navbar({ user }: { user: any }) {
   const pathname = usePathname();
   const params = useParams();
+
+  const navigation = [
+    { name: 'Features', subItems: [
+      { name: 'Users', href: `/motels/${convertRouteToString(params?.id??"")}/users` },
+      { name: 'Rentals', href: `/motels/${convertRouteToString(params?.id??"")}/rentals` },
+      { name: 'Rooms', href: `/motels/${convertRouteToString(params?.id??"")}/rooms` },
+      { name: 'Guests', href: `/motels/${convertRouteToString(params?.id??"")}/guests` }
+    ] },
+    { name: 'Financials', subItems: [
+      { name: 'Refunds', href: `/motels/${convertRouteToString(params?.id??"")}/refunds` },
+      { name: 'Expenses', href: `/motels/${convertRouteToString(params?.id??"")}/expenses` },
+      { name: 'Payments', href: `/motels/${convertRouteToString(params?.id??"")}/payments` }
+    ] },
+  ];
+
   const subLinks = navigation.map((item) => item?.subItems?.map((subItem) => subItem?.href))
 
   const showNavLinks = () => {
@@ -84,7 +85,7 @@ export default function Navbar({ user }: { user: any }) {
                                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
                                 'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium h-full'
                               )}
-                              aria-current={pathname === '/users' || pathname === '/rentals' || pathname === '/rooms' || pathname === '/guests' ? 'page' : undefined}
+                              aria-current={subLinks?.[i].includes(convertRouteToString(pathname)) ? 'page' : undefined}
                             >
                               {item?.name}
                             </a>
