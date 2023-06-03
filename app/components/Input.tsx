@@ -11,7 +11,7 @@ interface Props {
     required?: boolean;
     placeholder?: string;
     disabled?: boolean;
-    value?: string;
+    value?: string | number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
 }

@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import usersApiService from '../../api/user';
 import { useParams, useRouter } from 'next/navigation';
 import { convertRouteToString } from '../utils/helpers';
+import SwitchToggle from './Toggle';
 
 export interface UserDTO {
     first_name: string;
@@ -38,6 +39,11 @@ const validationSchema = Yup.object({
     other_names: Yup.string().required('Required'),
     employee_id: Yup.string()
 })
+
+const STATUSES = [
+    {label: 'Admin', value: 'admin'},
+    {label: 'Super Admin', value: 'superadmin'},
+];
 
 export default function UserForm() {
     const params = useParams();
@@ -120,9 +126,18 @@ export default function UserForm() {
                         value={values.employee_id}
                     />
 
-                    <RoleOptions 
-                        value={values.role}
-                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleChange({ target: { name: 'role', value: e.target.value } })}
+                    <SwitchToggle 
+                        label="Role"
+                        options={STATUSES}
+                        defaultValue={values.role}
+                        onValueChange={(value:string) => {
+                            handleChange({
+                                target: {
+                                    name: 'role',
+                                    value
+                                }
+                            })
+                        }}
                     />
 
                     <div>
