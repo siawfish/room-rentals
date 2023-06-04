@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/react';
 import Providers from './providers';
 import Alert from './components/Alert';
 import Nav from './components/nav';
+import { Suspense } from 'react';
 
 export const metadata = {
   title: 'Room Rentals',
@@ -20,9 +21,9 @@ export default async function RootLayout({
         <Providers>
           {/* @ts-expect-error Server Component */}
           <Nav />
-          <main>
+          <Suspense fallback="...">
             {children}
-          </main>
+          </Suspense>
         </Providers>
         <Alert />
         <Analytics />

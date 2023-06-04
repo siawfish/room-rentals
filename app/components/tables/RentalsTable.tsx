@@ -10,6 +10,7 @@ import {
 import { formatDistance } from 'date-fns';
 import { convertDateStringToDate } from '../../utils/helpers';
 import numeral from 'numeral';
+import Button from '../Button';
 
 export interface Rentals {
     id: number;
@@ -36,6 +37,7 @@ export default async function GuestTable({ rentals=[] }: { rentals: Rentals[] })
                     <TableHeaderCell>Email Address</TableHeaderCell>
                     <TableHeaderCell>Check-Out</TableHeaderCell>
                     <TableHeaderCell>{`Amount (GHS)`}</TableHeaderCell>
+                    <TableHeaderCell></TableHeaderCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -58,6 +60,9 @@ export default async function GuestTable({ rentals=[] }: { rentals: Rentals[] })
                         </TableCell>
                         <TableCell>
                             <Text>{numeral(rental?.price_of_room).format('0,00.00')}</Text>
+                        </TableCell>
+                        <TableCell>
+                            <Button size='xs' >Pay</Button>
                         </TableCell>
                     </TableRow>
                 ))}

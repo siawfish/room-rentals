@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useTransition } from 'react'
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { signIn } from 'next-auth/react';
@@ -25,7 +25,8 @@ interface FormValues {
 }
 
 export default function LoginForm() {
-    const router = useRouter();
+    const { replace } = useRouter();
+    const [isPending, startTransition] = useTransition();
 
     const onSubmit = async (values:FormValues, { setSubmitting }:any) => {
         try {
@@ -35,10 +36,10 @@ export default function LoginForm() {
                 redirect: false
             });
             if(!res?.ok) throw new Error('Oops! Authentication failed, please try again.')
-            toast.success('You are successfully signed in! You will be redirected to dashboard in 3 seconds.');
-            setTimeout(() => {
-                router.push('/motels');
-            }, 3000);
+            toast.success('You are successfully signed in! Redirecting...');
+            startTransition(() => {
+              replace(`/motels`);
+            });
         } catch (error:any) {
             toast.error(error?.response?.data?.data?.join(', ') ?? error?.message ?? 'Something went wrong');
         } finally {

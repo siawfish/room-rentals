@@ -7,6 +7,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { convertRouteToString } from '../utils/helpers';
+import Link from 'next/link';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -59,7 +60,7 @@ export default function Navbar({ user }: { user: any }) {
                 {
                   showNavLinks?.() &&
                   <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-                    <a
+                    <Link
                       key={`Dashboard`}
                       href={`/motels/${convertRouteToString(id as string)}`}
                       className={classNames(
@@ -71,12 +72,12 @@ export default function Navbar({ user }: { user: any }) {
                       aria-current={pathname === `/motels/${convertRouteToString(id as string)}` ? 'page' : undefined}
                     >
                       {`Dashboard`}
-                    </a>
+                    </Link>
                     {
                       navigation.map((item, i) => (
                         <Menu key={item?.name} as="div" className="h-full relative">
                           <Menu.Button as={Fragment}>
-                            <a
+                            <Link
                               key={item?.name}
                               href={`#`}
                               className={classNames(
@@ -88,7 +89,7 @@ export default function Navbar({ user }: { user: any }) {
                               aria-current={subLinks?.[i].includes(convertRouteToString(pathname)) ? 'page' : undefined}
                             >
                               {item?.name}
-                            </a>
+                            </Link>
                           </Menu.Button>
                           <Transition
                             as={Fragment}
@@ -104,7 +105,7 @@ export default function Navbar({ user }: { user: any }) {
                                 item?.subItems?.map((subItem) => (
                                   <Menu.Item key={subItem?.name}>
                                     {({ active }) => (
-                                      <a
+                                      <Link
                                         href={subItem?.href}
                                         className={classNames(
                                           pathname === subItem?.href ? 'bg-gray-100' : '',
@@ -112,7 +113,7 @@ export default function Navbar({ user }: { user: any }) {
                                         )}
                                       >
                                         {subItem?.name}
-                                      </a>
+                                      </Link>
                                     )}
                                   </Menu.Item>
                                 ))
@@ -133,19 +134,19 @@ export default function Navbar({ user }: { user: any }) {
                       <div className="flex items-center px-4">
                         <div className="mr-3">
                           <div className="text-start text-base font-medium text-gray-800">
-                            {`${user.first_name} ${user.other_names}`}
+                            {`${user?.first_name} ${user?.other_names}`}
                           </div>
                           <div className="text-sm font-medium text-gray-500">
-                            {user.email}
+                            {user?.email}
                           </div>
                         </div>
                         <div className="flex-shrink-0">
                           <Image
                             className="h-8 w-8 rounded-full"
-                            src={user.image || 'https://avatar.vercel.sh/leerob'}
+                            src={user?.image || 'https://avatar.vercel.sh/leerob'}
                             height={32}
                             width={32}
-                            alt={`${user.first_name} ${user.other_names} avatar`}
+                            alt={`${user?.first_name} ${user?.other_names} avatar`}
                           />
                         </div>
                       </div>
@@ -211,54 +212,51 @@ export default function Navbar({ user }: { user: any }) {
             {
               showNavLinks?.() &&
               <div className="space-y-1 pt-2 pb-3">
-                <Disclosure.Button
-                  key={`Dashboard`}
-                  as="a"
-                  href={`/motels/${convertRouteToString(id as string)}`}
-                  className={classNames(
-                    pathname === `/motels/${convertRouteToString(id as string)}`
-                      ? 'bg-slate-50 border-slate-500 text-slate-700'
-                      : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                    'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                  )}
-                  aria-current={pathname === `/motels/${convertRouteToString(id as string)}` ? 'page' : undefined}
-                >
-                  {`Dashboard`}
-                </Disclosure.Button>
+                <Link href={`/motels/${convertRouteToString(id as string)}`}>
+                  <Disclosure.Button
+                    className={classNames(
+                      pathname === `/motels/${convertRouteToString(id as string)}`
+                        ? 'bg-slate-50 border-slate-500 text-slate-700'
+                        : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+                      'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                    )}
+                    aria-current={pathname === `/motels/${convertRouteToString(id as string)}` ? 'page' : undefined}
+                  >
+                    {`Dashboard`}
+                  </Disclosure.Button>
+                </Link>
                 {
                   navigation?.[0].subItems?.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as="a"
-                      href={item.href}
-                      className={classNames(
-                        pathname === item.href
-                          ? 'bg-slate-50 border-slate-500 text-slate-700'
-                          : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                        'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                      )}
-                      aria-current={pathname === item.href ? 'page' : undefined}
-                    >
-                      {item.name}
-                    </Disclosure.Button>
+                    <Link href={item.href} key={item.name}>
+                      <Disclosure.Button
+                        className={classNames(
+                          pathname === item.href
+                            ? 'bg-slate-50 border-slate-500 text-slate-700'
+                            : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+                          'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                        )}
+                        aria-current={pathname === item.href ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </Disclosure.Button>
+                    </Link>
                   ))
                 }
                 {
                   navigation?.[1].subItems?.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as="a"
-                      href={item.href}
-                      className={classNames(
-                        pathname === item.href
-                          ? 'bg-slate-50 border-slate-500 text-slate-700'
-                          : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                        'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                      )}
-                      aria-current={pathname === item.href ? 'page' : undefined}
-                    >
-                      {item.name}
-                    </Disclosure.Button>
+                    <Link key={item.name} href={item.href}>
+                      <Disclosure.Button
+                        className={classNames(
+                          pathname === item.href
+                            ? 'bg-slate-50 border-slate-500 text-slate-700'
+                            : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+                          'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                        )}
+                        aria-current={pathname === item.href ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </Disclosure.Button>
+                    </Link>
                   ))
                 }
               </div>
@@ -270,18 +268,18 @@ export default function Navbar({ user }: { user: any }) {
                     <div className="flex-shrink-0">
                       <Image
                         className="h-8 w-8 rounded-full"
-                        src={user.image || 'https://avatar.vercel.sh/leerob'}
+                        src={user?.image || 'https://avatar.vercel.sh/leerob'}
                         height={32}
                         width={32}
-                        alt={`${user.first_name} ${user.other_names} avatar`}
+                        alt={`${user?.first_name} ${user?.other_names} avatar`}
                       />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium text-gray-800">
-                        {`${user.first_name} ${user.other_names}`}
+                        {`${user?.first_name} ${user?.other_names}`}
                       </div>
                       <div className="text-sm font-medium text-gray-500">
-                        {user.email}
+                        {user?.email}
                       </div>
                     </div>
                   </div>

@@ -11,6 +11,7 @@ interface Props {
     isLoading?: boolean;
     disabled?: boolean;
     loadingText?: string;
+    size?: "xs"|"sm"|"md"|"lg"|"xl";
 }
 
 export default function CustomButton({
@@ -20,9 +21,10 @@ export default function CustomButton({
     onClick,
     isLoading,
     disabled,
-    loadingText
+    loadingText,
+    size
 }:Props) {
     return (
-        <Button loadingText={loadingText} loading={isLoading} disabled={isLoading || disabled} onClick={onClick} type={type} className={className}>{children}</Button>
+        <Button size={size} loadingText={loadingText} loading={isLoading} disabled={isLoading || disabled} onClick={onClick} type={type} className={className}>{children}</Button>
     )
 }
