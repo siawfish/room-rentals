@@ -2,14 +2,14 @@
 
 import { Form, Formik } from 'formik'
 import React from 'react'
-import Input from './Input'
-import Button from './Button'
+import Input from '../Input'
+import Button from '../Button'
 import * as Yup from 'yup'
-import SwitchToggle from './Toggle';
-import roomsApiService from '../../api/room';
+import SwitchToggle from '../Toggle';
+import roomsApiService from '../../../api/room';
 import { toast } from 'react-hot-toast';
 import { useRouter, useParams } from 'next/navigation';
-import { convertRouteToString } from '../utils/helpers';
+import { convertRouteToString } from '../../utils/helpers';
 import { useSession } from 'next-auth/react';
 
 export interface RoomsDTO {
@@ -84,7 +84,7 @@ export default function RoomsForm() {
                     />
 
                     <Input
-                        label="Price"
+                        label="Price (GHS)"
                         id="cost_of_room"
                         name="cost_of_room"
                         type="number"

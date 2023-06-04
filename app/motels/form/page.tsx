@@ -1,6 +1,6 @@
 import React from 'react'
 import { Title, Text, Divider } from '@tremor/react'
-import Form from '../../components/MotelForm'
+import Form from '../../components/forms/MotelForm'
 
 export default function MotelForm() {
     return (

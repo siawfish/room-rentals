@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import LoginForm from '../../../components/LoginForm';
+import LoginForm from '../../../components/forms/LoginForm';
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../../../../pages/api/auth/[...nextauth]"
 import { redirect } from 'next/navigation';

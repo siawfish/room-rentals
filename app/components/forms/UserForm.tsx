@@ -3,14 +3,13 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import Input from './Input';
-import RoleOptions from './RoleOptions';
-import Button from './Button';
+import Input from '../Input';
+import Button from '../Button';
 import toast from 'react-hot-toast';
-import usersApiService from '../../api/user';
+import usersApiService from '../../../api/user';
 import { useParams, useRouter } from 'next/navigation';
-import { convertRouteToString } from '../utils/helpers';
-import SwitchToggle from './Toggle';
+import { convertRouteToString } from '../../utils/helpers';
+import SwitchToggle from '../Toggle';
 
 export interface UserDTO {
     first_name: string;

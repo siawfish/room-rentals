@@ -1,4 +1,4 @@
-import { Grid, Text, Title, Flex } from '@tremor/react'
+import { Grid, Text, Title } from '@tremor/react'
 import React from 'react'
 import Search from '../components/Search'
 import MotelCard, { MotelType } from '../components/MotelCard'
@@ -18,9 +18,9 @@ async function getData() {
 export default async function Motels() {
     const data = await getData();
     return (
-        <main className="p-4 md:p-10 mx-auto max-w-7xl">
-            <Flex>
-                <div>
+        <>
+            <div className="flex flex-row justify-between">
+                <div className="w-full">
                     <Title>Motels</Title>
                     <Text>
                         Click on a motel to view and manage its rooms.
@@ -30,7 +30,7 @@ export default async function Motels() {
                 <Link href="/motels/form">
                     <Button className="hidden md:block text-white text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add Motel </Button>
                 </Link>
-            </Flex>
+            </div>
             <Grid className="gap-6 mt-6 mb-6" numCols={2} numColsMd={3} numColsLg={4}>
                 {data?.map((item:MotelType) => (
                     <MotelCard key={item?.id} motel={item} />
@@ -41,6 +41,6 @@ export default async function Motels() {
                     <Button className="text-white text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add Motel </Button>
                 </Link>
             </div>
-        </main>
+        </>
     )
 }

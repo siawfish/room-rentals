@@ -1,29 +1,30 @@
+'use client';
+
+import PageLayout from '../components/PageLayout';
 import '../globals.css';
-
-import { Analytics } from '@vercel/analytics/react';
 import { Suspense } from 'react';
-import Nav from './nav';
-// import Toast from '../components/toast';
-
-export const metadata = {
-  title: 'Room Rentals - Motels',
-  description: 'Optimize your short-term rental business with our user-friendly app, simplifying space management tasks.'
-};
+import { usePathname } from 'next/navigation';
+import { convertFromPluralToSingular } from '../utils/helpers';
 
 export default async function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
   return (
-    <>
+    <PageLayout
+      btnLabel={convertFromPluralToSingular(pathname?.split('/')?.pop()??"")}
+      btnLink={window?.location?.href + "/form"}
+      caption={`View and manage ${pathname?.split('/')?.pop()??""}`}
+      searchPlaceholder={`Search ${pathname?.split('/')?.pop()??""}`}
+      title={pathname?.split('/').pop()??""}
+    >
+      <>
         <Suspense fallback="...">
-            {/* @ts-expect-error Server Component */}
-            <Nav />
-            {children}
-            <Analytics />
+          {children}
         </Suspense>
-        {/* <Toast /> */}
-    </>
+      </>
+    </PageLayout>
   );
 }

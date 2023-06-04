@@ -1,4 +1,4 @@
-import { UserDTO } from "../app/components/UserForm";
+import { UserDTO } from "../app/components/forms/UserForm";
 import axiosInstance from "./init";
 
 const usersApiService = (() => {

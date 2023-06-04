@@ -31,9 +31,9 @@ export default async function RoomsTable({ rooms }: { rooms: Room[] }) {
                 <TableRow>
                     <TableHeaderCell>Room #</TableHeaderCell>
                     <TableHeaderCell>{`Price (GHS)`}</TableHeaderCell>
-                    {/* <TableHeaderCell>Occupancy</TableHeaderCell> */}
                     <TableHeaderCell>{`Discount (%)`}</TableHeaderCell>
-                    <TableHeaderCell>Status</TableHeaderCell>
+                    <TableHeaderCell>Reservations</TableHeaderCell>
+                    <TableHeaderCell>Availability</TableHeaderCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -45,14 +45,14 @@ export default async function RoomsTable({ rooms }: { rooms: Room[] }) {
                         <TableCell>
                             <Text>{room?.price_of_room}</Text>
                         </TableCell>
-                        {/* <TableCell>
-                            <Text>{room?.state_of_occupancy}</Text>
-                        </TableCell> */}
                         <TableCell>
                             <Text>{room?.percentage_discount}</Text>
                         </TableCell>
                         <TableCell>
-                            <Badge color={room?.is_reserved === 1 ? "green" : "red"}>{room?.is_reserved === 1 ? "Reserved" : "Available"}</Badge>
+                            <Text>{room?.is_reserved === 1 ? 'Yes' : 'No'}</Text>
+                        </TableCell>
+                        <TableCell>
+                            <Badge color={room?.state_of_occupancy === 1 ? "red" : "green"}>{room?.state_of_occupancy === 1 ? "Occupied" : "Available"}</Badge>
                         </TableCell>
                     </TableRow>
                 ))}

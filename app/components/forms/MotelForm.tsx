@@ -2,11 +2,11 @@
 
 import React from 'react'
 import { Formik, Form } from 'formik';
-import Input from './Input';
-import Button from './Button';
+import Input from '../Input';
+import Button from '../Button';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
-import motelsApiService from '../../api/motel';
+import motelsApiService from '../../../api/motel';
 import { useRouter } from 'next/navigation';
 
 interface FormValues {

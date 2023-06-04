@@ -5,8 +5,8 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
-import Button from './Button';
-import Input from './Input';
+import Button from '../Button';
+import Input from '../Input';
 import { useRouter } from 'next/navigation';
 
 const validationSchema = Yup.object().shape({
