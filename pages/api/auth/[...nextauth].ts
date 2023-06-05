@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
     signIn: "/auth/signIn"
   },
 
-  secret: process.env.SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 
   session: {
     // Choose how you want to save the user session.
