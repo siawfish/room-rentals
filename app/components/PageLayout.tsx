@@ -1,25 +1,19 @@
+'use client';
+
 import { Button, Text, Title } from '@tremor/react'
 import React from 'react'
 import Search from './Search'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { convertFromPluralToSingular } from '../utils/helpers';
 
 interface PageLayoutProps {
     children: React.ReactNode;
-    title: string;
-    caption: string;
-    btnLabel: string;
-    btnLink: string;
-    searchPlaceholder: string;
 }
 
+
 export default function PageLayout({
-    children,
-    title,
-    caption,
-    btnLabel,
-    btnLink,
-    searchPlaceholder
+    children
 }:PageLayoutProps) {
     const pathname = usePathname();
     return (
@@ -28,17 +22,17 @@ export default function PageLayout({
                 (pathname?.split('/')?.pop()??'') !== "form" &&
                 <div className="flex flex-row justify-between">
                     <div className="w-full">
-                        <Title className="capitalize">{(pathname?.split('/')?.filter(Boolean)?.length??0) === 2 ? 'Dashboard' : title}</Title>
-                        <Text>{(pathname?.split('/')?.filter(Boolean)?.length??0) === 2 ? 'Metrics Summary' : caption}</Text>
+                        <Title className="capitalize">{(pathname?.split('/')?.filter(Boolean)?.length??0) === 2 ? 'Dashboard' : pathname?.split('/').pop()??""}</Title>
+                        <Text>{(pathname?.split('/')?.filter(Boolean)?.length??0) === 2 ? 'Metrics Summary' : `View and manage ${pathname?.split('/')?.pop()??""}`}</Text>
                         {
                             (pathname?.split('/')?.filter(Boolean)?.length??0) > 2 && 
-                            <Search placeholder={searchPlaceholder} />
+                            <Search placeholder={`Search ${pathname?.split('/')?.pop()??""}`} />
                         }
                     </div>
                     {
                         (pathname?.split('/')?.filter(Boolean)?.length??0) > 2 && 
-                        <Link href={btnLink}>
-                            <Button className="hidden md:block text-white  capitalize text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add {btnLabel} </Button>
+                        <Link href={`${pathname}/form`}>
+                            <Button className="hidden md:block text-white  capitalize text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add {convertFromPluralToSingular(pathname?.split('/')?.pop()??"")} </Button>
                         </Link>
                     }
                 </div>
@@ -47,8 +41,8 @@ export default function PageLayout({
             {
                 (pathname?.split('/')?.filter(Boolean)?.length??0) > 2 && (pathname?.split('/')?.pop()??'') !== "form" &&
                 <div className="md:hidden absolute left-0 w-full flex flex-row align-center justify-center">
-                    <Link href={btnLink}>
-                        <Button className="text-white capitalize text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add {btnLabel} </Button>
+                    <Link href={`${pathname}/form`}>
+                        <Button className="text-white capitalize text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add {convertFromPluralToSingular(pathname?.split('/')?.pop()??"")} </Button>
                     </Link>
                 </div>
             }

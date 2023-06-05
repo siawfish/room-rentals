@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export default withAuth(
   function middleware(req) {
     if (req.nextUrl.pathname === '/') {
-      return NextResponse.rewrite(new URL('/motels', req.url));
+      return NextResponse.redirect(new URL('/motels', req.url));
     }
   },
   {
@@ -13,3 +13,7 @@ export default withAuth(
     }
   }
 )
+
+export const config = {
+  matcher: ['/motels/:path*', '/'],
+}

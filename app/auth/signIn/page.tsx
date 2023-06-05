@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import LoginForm from '../../../components/forms/LoginForm';
+import LoginForm from '../../components/forms/LoginForm';
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "../../../../pages/api/auth/[...nextauth]"
+import { authOptions } from "../../../pages/api/auth/[...nextauth]"
 import { redirect } from 'next/navigation';
-import logoImage from '../../../../public/assets/images/logo.jpeg';
+import logoImage from '../../../public/assets/images/logo.jpeg';
 
 export const dynamic = 'force-dynamic';
 

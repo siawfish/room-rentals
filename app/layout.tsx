@@ -11,14 +11,16 @@ export const metadata = {
 };
 
 export default async function RootLayout({
-  children
+  children,
+  session
 }: {
   children: React.ReactNode;
+  session: any;
 }) {
   return (
     <html lang="en" className="h-full bg-gray-50">
       <body className="h-full">
-        <Providers>
+        <Providers session={session}>
           {/* @ts-expect-error Server Component */}
           <Nav />
           <Suspense fallback="...">
