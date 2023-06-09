@@ -3,14 +3,11 @@ import {
     TableHead,
     TableRow,
     TableHeaderCell,
-    TableBody,
-    TableCell,
-    Text,
+    TableBody
 } from '@tremor/react';
-import { formatDistance } from 'date-fns';
-import { convertDateStringToDate } from '../../utils/helpers';
-import numeral from 'numeral';
-import Button from '../Button';
+import { useState } from 'react';
+import ConfirmPayment from '../ConfirmPayment';
+import RentalTableRow from './RentalTableRow';
 
 export interface Rentals {
     id: number;
@@ -24,9 +21,13 @@ export interface Rentals {
     created_at: string;
     updated_at: string;
     price_of_room: number;
+    motel_id?: number;
+    room_id?: number;
+    guest_id?: number;
 }
 
 export default async function GuestTable({ rentals=[] }: { rentals: Rentals[] }) {
+
     return (
         <Table>
             <TableHead>
@@ -40,33 +41,7 @@ export default async function GuestTable({ rentals=[] }: { rentals: Rentals[] })
                     <TableHeaderCell></TableHeaderCell>
                 </TableRow>
             </TableHead>
-            <TableBody>
-                {rentals?.map((rental) => (
-                    <TableRow key={rental.id}>
-                        <TableCell>
-                            <Text>{rental?.id}</Text>
-                        </TableCell>
-                        <TableCell>
-                            <Text>{`${rental?.guest_first_name} ${rental?.guest_other_names}`}</Text>
-                        </TableCell>
-                        <TableCell>
-                            <Text>{rental?.phone_number}</Text>
-                        </TableCell>
-                        <TableCell>
-                            <Text>{rental?.email}</Text>
-                        </TableCell>
-                        <TableCell>
-                            <Text>{formatDistance(new Date(), convertDateStringToDate(rental?.end_of_residence))}</Text>
-                        </TableCell>
-                        <TableCell>
-                            <Text>{numeral(rental?.price_of_room).format('0,00.00')}</Text>
-                        </TableCell>
-                        <TableCell>
-                            <Button size='xs' >Pay</Button>
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
+            <RentalTableRow rentals={rentals} />
         </Table>
     );
 }
