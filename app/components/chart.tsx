@@ -21,7 +21,7 @@ const data = [
 ];
 
 const valueFormatter = (number: number) =>
-  `$ ${Intl.NumberFormat('us').format(number).toString()}`;
+  `GHS ${Intl.NumberFormat('us').format(number).toString()}`;
 
 export default function Chart() {
   return (

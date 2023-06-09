@@ -30,7 +30,7 @@ export default function PageLayout({
                         }
                     </div>
                     {
-                        (pathname?.split('/')?.filter(Boolean)?.length??0) > 2 && 
+                        (pathname?.split('/')?.filter(Boolean)?.length??0) > 2 && (pathname?.split('/')?.pop()??'') !== "form" && (pathname?.split('/')?.pop()??'') !== "payments" && (pathname?.split('/')?.pop()??'') !== "refunds" &&
                         <Link href={`${pathname}/form`}>
                             <Button className="hidden md:block text-white  capitalize text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add {convertFromPluralToSingular(pathname?.split('/')?.pop()??"")} </Button>
                         </Link>
@@ -39,7 +39,7 @@ export default function PageLayout({
             }
             {children}
             {
-                (pathname?.split('/')?.filter(Boolean)?.length??0) > 2 && (pathname?.split('/')?.pop()??'') !== "form" &&
+                (pathname?.split('/')?.filter(Boolean)?.length??0) > 2 && (pathname?.split('/')?.pop()??'') !== "form" && (pathname?.split('/')?.pop()??'') !== "payments" && (pathname?.split('/')?.pop()??'') !== "refunds" &&
                 <div className="md:hidden absolute left-0 w-full flex flex-row align-center justify-center">
                     <Link href={`${pathname}/form`}>
                         <Button className="text-white capitalize text-[13px] font-mono bg-black hover:bg-gray-700 transition-all rounded-md w-[150px] h-10 flex items-center justify-center whitespace-nowrap"> + Add {convertFromPluralToSingular(pathname?.split('/')?.pop()??"")} </Button>

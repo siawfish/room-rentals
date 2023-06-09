@@ -66,6 +66,9 @@ export default function RentalTableRow({ rentals }: { rentals: Rentals[] }) {
                         <TableCell>
                             <Button loadingText='Paying...' isLoading={isLoading} onClick={()=>setConfirmPaymentId(rental?.id)} size='xs' >Pay</Button>
                         </TableCell>
+                        <TableCell>
+                            <Button loadingText='Refunding...' isLoading={isLoading} onClick={()=>console.log(rental?.id)} size='xs' >Refund</Button>
+                        </TableCell>
                     </TableRow>
                 ))}
             </TableBody>

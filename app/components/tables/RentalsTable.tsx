@@ -39,6 +39,7 @@ export default async function GuestTable({ rentals=[] }: { rentals: Rentals[] })
                     <TableHeaderCell>Check-Out</TableHeaderCell>
                     <TableHeaderCell>{`Amount (GHS)`}</TableHeaderCell>
                     <TableHeaderCell></TableHeaderCell>
+                    <TableHeaderCell></TableHeaderCell>
                 </TableRow>
             </TableHead>
             <RentalTableRow rentals={rentals} />

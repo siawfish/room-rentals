@@ -1,49 +1,37 @@
-import { Card, Title, Text } from '@tremor/react';
-import Search from '../../../components/Search';
-import ListTable from '../../table';
+import { Card } from '@tremor/react';
+import ExpensesTable from '../../../components/tables/ExpensesTable';
 
 export const dynamic = 'force-dynamic';
 
+// async function getData(id: string) {
+//   const res = await fetch(`${process.env.BASE_URL}/api/get/all/expense/${id}?page[number]=1&page[size]=10`, {
+//     cache: 'no-cache'
+//   });
+//   if (!res.ok) {
+//     throw new Error('Failed to fetch data');
+//   }
+//   return res.json();
+// }
+
+
 export default async function IndexPage({
-  searchParams
+  searchParams,
+  params
 }: {
   searchParams: { q: string };
+  params: { id: string };
 }) {
   const search = searchParams.q ?? '';
-  // const users = await queryBuilder
-  //   .selectFrom('users')
-  //   .select(['id', 'name', 'username', 'email'])
-  //   .where('name', 'like', `%${search}%`)
-  //   .execute();
+  const id = params.id ?? '';
 
-  const users = [
-    {
-      id: 1,
-      name: 'John Doe',
-      username: 'johndoe',
-      email: 'mcamanor@gmail.com'
-    },
-    {
-      id: 2,
-      name: 'Jane Doe',
-      username: 'janedoe',
-      email: 'siaw@mail.com'
-    }
-  ];
+  // const expenses = await getData(id);
 
-  
+  const expenses:any = []
 
   return (
-    <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Title>Expenses</Title>
-      <Text>
-        A list of expenses retrieved from a MySQL database (PlanetScale).
-      </Text>
-      <Search />
-      <Card className="mt-6">
-        {/* @ts-expect-error Server Component */}
-        <ListTable users={users} />
-      </Card>
-    </main>
+    <Card className="mt-6">
+      {/* @ts-expect-error Server Component */}
+      <ExpensesTable expenses={expenses} />
+    </Card>
   );
 }

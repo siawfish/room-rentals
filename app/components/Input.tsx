@@ -14,6 +14,7 @@ interface Props {
     value?: string | number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
+    as?: string;
 }
 
 const errorInputClassName = "h-10 block w-full rounded-md border border-red-500 pl-3 focus:border-red-500 focus:ring-red-500 sm:text-sm";
@@ -31,7 +32,8 @@ export default function Input({
     disabled,
     value,
     onChange,
-    error
+    error,
+    as
 }: Props) {
     return (
         <div>
