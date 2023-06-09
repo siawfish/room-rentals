@@ -35,7 +35,7 @@ export default function LoginForm() {
                 password: values.password,
                 redirect: false
             });
-            if(!res?.ok) throw new Error('Oops! Authentication failed, please try again.')
+            if(res?.error) throw new Error('Oops! Authentication failed, please try again.')
             toast.success('You are successfully signed in! Redirecting...');
             startTransition(() => {
               replace(`/motels`);
