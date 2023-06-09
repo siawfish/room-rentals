@@ -1,4 +1,4 @@
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '../../pages/api/auth/[...nextauth]';
 import Navbar from './navbar';
 import { getServerSession } from 'next-auth/next';
 
