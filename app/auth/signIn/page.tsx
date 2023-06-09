@@ -3,7 +3,7 @@ import LoginForm from '../../components/forms/LoginForm';
 import { getServerSession } from "next-auth/next"
 import { redirect } from 'next/navigation';
 import logoImage from '../../../public/assets/images/logo.jpeg';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
+import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 
 export const dynamic = 'force-dynamic';
 

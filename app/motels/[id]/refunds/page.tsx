@@ -26,8 +26,6 @@ export default async function IndexPage({
 
   const refunds = await getData(id);
 
-  console.log('refunds----->', refunds)
-
   return (
     <Card className="mt-6">
       {/* @ts-expect-error Server Component */}
