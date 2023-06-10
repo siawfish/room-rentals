@@ -1,5 +1,6 @@
 import { Card } from '@tremor/react';
 import UsersTable from '../../../components/tables/UserTable';
+
 async function getData(id: string, search: string) {
   const headers = new Headers();
   const bodyContent = JSON.stringify({ search, motel_id: id });

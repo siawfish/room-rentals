@@ -18,15 +18,12 @@ export const authOptions: NextAuthOptions = {
             body: JSON.stringify(credentials),
             headers: { "Content-Type": "application/json" }
           });
-          const { data, success } = await res.json();
+          const { data } = await res.json();
           const user = data;
-          if (success) {
-            return user;
-          }
-          throw new Error(data);
+          if(!user) return null;
+          return user;
         } catch (error:any) {
           console.log("Sign In Error---->", `email - ${credentials?.email} - ${error?.message}}`);
-          return null;
         }
       }
     })
