@@ -1,5 +1,6 @@
 import { Card } from '@tremor/react';
 import RentalsTable from '../../../components/tables/RentalsTable';
+import EmptyList from '../../../components/EmptyList';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,21 +15,22 @@ async function getData(id: string) {
 }
 
 export default async function Rentals({
-  searchParams,
   params
 }: {
   searchParams: { q: string };
   params: { id: string };
 }) {
-  const search = searchParams.q ?? '';
   const id = params.id ?? '';
 
   const rentals = await getData(id);
 
   return (
     <Card className="mt-6">
-      {/* @ts-expect-error Server Component */}
-      <RentalsTable rentals={rentals?.data} />
+      {
+        rentals?.data?.length > 0 ?
+        <RentalsTable rentals={rentals?.data} /> :
+        <EmptyList title="No rental found" caption="Create a new rental to get started" />
+      }
     </Card>
   );
 }

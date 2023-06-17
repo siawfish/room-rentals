@@ -10,9 +10,14 @@ const roomsApiService = (() => {
         return axiosInstance.get(`/api/get/all/rooms/${motel_id}`);
     };
 
+    const updateRoom = (data: RoomsDTO) => {
+        return axiosInstance.put('/api/update/room/info', data);
+    };
+
     return {
         createRoom,
-        getRooms
+        getRooms,
+        updateRoom
     }
 })()
 

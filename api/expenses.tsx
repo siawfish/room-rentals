@@ -6,8 +6,13 @@ const expensesApiService = (() => {
         return axiosInstance.post('/api/add/new/expense', data);
     };
 
+    const getExpenses = (motel_id:string) => {
+        return axiosInstance.get(`/api/get/motel/expenses/${motel_id}`);
+    };
+
     return {
-        addExpense
+        addExpense,
+        getExpenses
     }
 })()
 

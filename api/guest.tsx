@@ -10,9 +10,19 @@ const guestsApiService = (() => {
         return axiosInstance.get(`/api/get/all/guests/${motel_id}`);
     };
 
+    const checkoutGuest = (id: string) => {
+        return axiosInstance.get(`/api/check/out/guest/${id}`);
+    }
+
+    const updateGuest = (data: GuestsDTO) => {
+        return axiosInstance.put('/api/update/guest/info', data);
+    };
+
     return {
         saveGuest,
-        getGuests
+        getGuests,
+        checkoutGuest,
+        updateGuest
     }
 })()
 

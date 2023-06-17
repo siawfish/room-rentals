@@ -2,11 +2,8 @@ import {
     Table,
     TableHead,
     TableRow,
-    TableHeaderCell,
-    TableBody
+    TableHeaderCell
 } from '@tremor/react';
-import { useState } from 'react';
-import ConfirmPayment from '../ConfirmPayment';
 import RentalTableRow from './RentalTableRow';
 
 export interface Rentals {
@@ -26,7 +23,7 @@ export interface Rentals {
     guest_id?: number;
 }
 
-export default async function GuestTable({ rentals=[] }: { rentals: Rentals[] }) {
+export default function GuestTable({ rentals=[] }: { rentals: Rentals[] }) {
 
     return (
         <Table>

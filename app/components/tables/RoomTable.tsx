@@ -10,6 +10,7 @@ import {
     Text,
     Badge,
 } from '@tremor/react';
+import { useRouter, usePathname } from 'next/navigation';
 
 export interface Room {
     id: number;
@@ -24,7 +25,9 @@ export interface Room {
     updated_at: string;
 }
 
-export default async function RoomsTable({ rooms }: { rooms: Room[] }) {
+export default function RoomsTable({ rooms }: { rooms: Room[] }) {
+    const { push } = useRouter();
+    const pathname = usePathname();
     return (
         <Table>
             <TableHead>
@@ -39,19 +42,19 @@ export default async function RoomsTable({ rooms }: { rooms: Room[] }) {
             <TableBody>
                 {rooms.map((room) => (
                     <TableRow key={room.id}>
-                        <TableCell>
+                        <TableCell className="cursor-pointer" onClick={()=>push(`${pathname}/form?rid=${room?.id}`)}>
                             <Text>{room?.room_number??" -- "}</Text>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="cursor-pointer" onClick={()=>push(`${pathname}/form?rid=${room?.id}`)}>
                             <Text>{room?.price_of_room}</Text>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="cursor-pointer" onClick={()=>push(`${pathname}/form?rid=${room?.id}`)}>
                             <Text>{room?.percentage_discount}</Text>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="cursor-pointer" onClick={()=>push(`${pathname}/form?rid=${room?.id}`)}>
                             <Text>{room?.is_reserved === 1 ? 'Yes' : 'No'}</Text>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="cursor-pointer" onClick={()=>push(`${pathname}/form?rid=${room?.id}`)}>
                             <Badge color={room?.state_of_occupancy === 1 ? "red" : "green"}>{room?.state_of_occupancy === 1 ? "Occupied" : "Available"}</Badge>
                         </TableCell>
                     </TableRow>

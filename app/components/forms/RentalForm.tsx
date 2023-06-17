@@ -15,6 +15,7 @@ import { DateRange } from '../DateRangePicker';
 import guestsApiService from '../../../api/guest';
 import roomsApiService from '../../../api/room';
 import { format } from 'date-fns';
+import { RoomsDTO } from './RoomsForm';
 
 export interface RentalDTO {
     room_id?: number;
@@ -26,6 +27,7 @@ export interface RentalDTO {
     is_reservation?: 0 | 1;
     duration_extended?: unknown;
     duration_reduced?: unknown;
+    cost_of_service?: number;
 }
 
 const validationSchema = Yup.object().shape({
@@ -59,15 +61,20 @@ export default function GuestsForm() {
 
     const [guests, setGuests] = useState([]);
     const [rooms, setRooms] = useState([]);
+    const [roomRawData, setRoomRawData] = useState<RoomsDTO[]>();
 
 
     const fetchRooms = async () => {
         try {
             const { data } = await roomsApiService.getRooms(convertRouteToString(id));
-            const formattedData = data?.map((item:any) => ({
-                label: item?.room_number,
-                value: item?.id?.toString()
-            }));
+            const formattedData = data?.map((item:any) => {
+                if(item?.is_reserved) return null;
+                return {
+                    label: item?.room_number,
+                    value: item?.id?.toString()
+                }
+            }).filter((item:any) => item !== null);
+            setRoomRawData(data);
             setRooms(formattedData);
         } catch (error:any) {
             toast.error(error?.response?.data?.data?.join(', ') ?? error?.message ?? 'Something went wrong')
@@ -99,7 +106,8 @@ export default function GuestsForm() {
                 ...values,
                 // @ts-ignore
                 added_by: user?.id,
-                motel_id: Number(convertRouteToString(id))
+                motel_id: Number(convertRouteToString(id)),
+                cost_of_service: roomRawData?.find((item:any) => item?.id === Number(values?.room_id))?.price_of_room
             });
             toast.success('Rental recorded successfully, redirecting...');
             resetForm?.()

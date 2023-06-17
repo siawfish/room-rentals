@@ -13,12 +13,13 @@ import { convertRouteToString } from '../../utils/helpers';
 import { useSession } from 'next-auth/react';
 
 export interface RoomsDTO {
-    cost_of_room: number;
+    cost_of_room?: number;
     percentage_discount: number;
     added_by?: number;
     is_reserved: 0 | 1;
     room_number: string;
     motel_id?: number;
+    price_of_room?: number;
 }
 
 const validationSchema = Yup.object().shape({
@@ -40,12 +41,22 @@ const STATUSES = [
     {label: 'Reserved', value: '1'},
 ];
 
-export default function RoomsForm() {
+export default function RoomsForm({
+    defaultValues
+}:{defaultValues?:RoomsDTO}) {
     const router = useRouter();
     const params = useParams();
     const { data:session } = useSession();
     const user = session?.user;
     const id = params?.id??"";
+
+    const formatDefaultValues = (values?:RoomsDTO) => {
+        if(!values) return initialValues;
+        return {
+            ...values,
+            cost_of_room: values?.price_of_room
+        }
+    }
 
     const onSubmit = async (values:RoomsDTO, { setSubmitting, resetForm }:any) => {
         try {
@@ -65,11 +76,25 @@ export default function RoomsForm() {
         }
     };
 
+    const onHandleUpdate = async (values:RoomsDTO, { setSubmitting }:any) => {
+        try {
+            toast.loading('Updating room...', {id: 'update-room'});
+            await roomsApiService.updateRoom(values);
+            toast.success('Room updated successfully', {id: 'update-room'});
+            router.refresh();
+        } catch (error:any) {
+            toast.error(error?.response?.data?.data?.join(', ') ?? error?.message ?? 'Something went wrong', {id: 'update-room'})
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <Formik
-            initialValues={initialValues}
+            initialValues={formatDefaultValues(defaultValues)}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={defaultValues ? onHandleUpdate : onSubmit}
+            enableReinitialize
         >
             {({ values, errors, touched, handleChange, handleSubmit, isSubmitting }) => (
                 <Form className="space-y-6">
@@ -124,9 +149,9 @@ export default function RoomsForm() {
                             disabled={isSubmitting}
                             isLoading={isSubmitting}
                             onClick={handleSubmit}
-                            loadingText='Creating Room...'
+                            loadingText={defaultValues ? "Updating Room..." : "'Creating Room...'"}
                         >
-                            Create Room
+                            {defaultValues ? "Update" : "Create"} Room
                         </Button>
                     </div>
                 </Form>

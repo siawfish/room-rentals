@@ -25,7 +25,7 @@ export interface Expenses {
     room_number: string;
 }
 
-export default async function ExpensesTable({ expenses }: { expenses: Expenses[] }) {
+export default function ExpensesTable({ expenses }: { expenses: Expenses[] }) {
     return (
         <Table>
             <TableHead>

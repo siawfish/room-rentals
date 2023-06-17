@@ -3,34 +3,26 @@ import ExpensesTable from '../../../components/tables/ExpensesTable';
 
 export const dynamic = 'force-dynamic';
 
-// async function getData(id: string) {
-//   const res = await fetch(`${process.env.BASE_URL}/api/get/all/expense/${id}?page[number]=1&page[size]=10`, {
-//     cache: 'no-cache'
-//   });
-//   if (!res.ok) {
-//     throw new Error('Failed to fetch data');
-//   }
-//   return res.json();
-// }
+async function getData(id: string) {
+  const res = await fetch(`${process.env.BASE_URL}/api/get/motel/expenses/${id}`, {
+    cache: 'no-cache'
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return res.json();
+}
 
 
-export default async function IndexPage({
-  searchParams,
+export default async function Expenses({
   params
 }: {
-  searchParams: { q: string };
   params: { id: string };
 }) {
-  const search = searchParams.q ?? '';
   const id = params.id ?? '';
-
-  // const expenses = await getData(id);
-
-  const expenses:any = []
-
+  const expenses = await getData(id);
   return (
     <Card className="mt-6">
-      {/* @ts-expect-error Server Component */}
       <ExpensesTable expenses={expenses} />
     </Card>
   );

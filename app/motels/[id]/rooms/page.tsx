@@ -1,5 +1,6 @@
 import { Card } from '@tremor/react';
 import RoomsTable from '../../../components/tables/RoomTable';
+import EmptyList from '../../../components/EmptyList';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,8 +28,11 @@ export default async function IndexPage({
 
   return (
     <Card className="mt-6">
-      {/* @ts-expect-error Server Component */}
-      <RoomsTable rooms={rooms} />
+      {
+        rooms?.length > 0 ?
+        <RoomsTable rooms={rooms} /> :
+        <EmptyList title="No room found" caption="Create a new room to get started" />
+      }
     </Card>
   );
 }

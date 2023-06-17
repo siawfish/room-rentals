@@ -44,7 +44,13 @@ const STATUSES = [
     {label: 'Super Admin', value: 'superadmin'},
 ];
 
-export default function UserForm() {
+interface UserFormProps {
+    defaultValues?: UserDTO;
+}
+
+export default function UserForm({
+    defaultValues
+}:UserFormProps) {
     const params = useParams();
     const router = useRouter();
     const id = params?.id??"";
@@ -67,11 +73,28 @@ export default function UserForm() {
         }
     }
 
+    const onSubmitUpdate = async (values:UserDTO, { setSubmitting, resetForm }:any) => {
+        try {
+            await usersApiService.updateUser({
+                ...values,
+                motel_id: convertRouteToString(id)
+            });
+            toast.success('User updated successfully');
+            router.refresh();
+        } catch (error:any) {
+            toast.error(error?.response?.data?.data?.join(', ') ?? error?.message ?? 'Something went wrong')
+        } finally {
+            setSubmitting(false)
+        }
+    }
+
+
     return (
         <Formik
-            initialValues={initialValues}
+            initialValues={defaultValues??initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={defaultValues ? onSubmitUpdate : onSubmit}
+            enableReinitialize
         >
             {({ values, errors, touched, handleChange, handleSubmit, isSubmitting }) => (
                 <Form className="space-y-6">
@@ -145,9 +168,9 @@ export default function UserForm() {
                             disabled={isSubmitting}
                             isLoading={isSubmitting}
                             onClick={handleSubmit}
-                            loadingText='Creating User...'
+                            loadingText={`${defaultValues ? "Creating" : "Updating"} User...`}
                         >
-                            Create User
+                            {`${defaultValues ? "Update" : "Create"}`} User
                         </Button>
                     </div>
                 </Form>

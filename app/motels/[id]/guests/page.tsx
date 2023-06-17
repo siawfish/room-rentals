@@ -1,5 +1,6 @@
 import { Card } from '@tremor/react';
 import GuestTable from '../../../components/tables/GuestTable';
+import EmptyList from '../../../components/EmptyList';
 
 async function getData(id: string, search: string) {
   const headers = new Headers();
@@ -25,12 +26,14 @@ export default async function Guests({
   params: { id: string };
 }) {
   const search = searchParams.q ?? '';
-  const id = params.id ?? '';
   const guests = await getData(params.id, search);
   return (
     <Card className="mt-6">
-      {/* @ts-expect-error Server Component */}
-      <GuestTable guests={guests} />
+      {
+        guests?.length > 0 ?
+        <GuestTable guests={guests} /> :
+        <EmptyList title="No guest found" caption="Create a new guest to get started" />
+      }
     </Card>
   );
 }

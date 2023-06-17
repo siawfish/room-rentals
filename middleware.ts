@@ -6,6 +6,11 @@ export default withAuth(
     if (req.nextUrl.pathname === '/') {
       return NextResponse.redirect(new URL('/motels', req.url));
     }
+    // @ts-ignore
+    if(req.nextUrl.pathname === '/motels' && req.nextauth.token?.data?.user?.role !== "superadmin"){
+      // @ts-ignore
+      return NextResponse.redirect(new URL(`/motels/${req.nextauth.token?.data?.user?.motel_id}`, req.url));
+    }
   },
   {
     callbacks: {

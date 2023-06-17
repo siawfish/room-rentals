@@ -37,7 +37,9 @@ const initialValues:GuestsDTO = {
     advert: ''
 };
 
-export default function GuestsForm() {
+export default function GuestsForm({
+    defaultValues
+}:{defaultValues?:GuestsDTO}) {
     const router = useRouter();
     const params = useParams();
     const { data:session } = useSession();
@@ -61,12 +63,25 @@ export default function GuestsForm() {
             setSubmitting(false);
         }
     };
+    const handleUpdate = async (values:GuestsDTO, { setSubmitting, resetForm }:any) => {
+        try {
+            await guestsApiService.updateGuest({
+                ...values
+            });
+            toast.success('Guest updated successfully');
+            router.refresh();
+        } catch (error:any) {
+            toast.error(error?.response?.data?.data?.join(', ') ?? error?.message ?? 'Something went wrong')
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     return (
         <Formik
-            initialValues={initialValues}
+            initialValues={defaultValues??initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={defaultValues ? handleUpdate : onSubmit}
         >
             {({ values, errors, touched, handleChange, handleSubmit, isSubmitting }) => (
                 <Form className="space-y-6">
@@ -116,9 +131,9 @@ export default function GuestsForm() {
                             disabled={isSubmitting}
                             isLoading={isSubmitting}
                             onClick={handleSubmit}
-                            loadingText='Saving Guest...'
+                            loadingText={`${defaultValues ? "Updating" : "Saving"} Guest...`}
                         >
-                            Save Guest
+                            {defaultValues ? "Update" : "Save"} Guest
                         </Button>
                     </div>
                 </Form>
