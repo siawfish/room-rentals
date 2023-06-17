@@ -12,19 +12,15 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        try {
-          const res = await fetch(`${LOGIN_URL}`, {
-            method: "POST",
-            body: JSON.stringify(credentials),
-            headers: { "Content-Type": "application/json" }
-          });
-          const { data } = await res.json();
-          const user = data;
-          if(!user) return null;
-          return user;
-        } catch (error:any) {
-          console.log("Sign In Error---->", `email - ${credentials?.email} - ${error?.message}}`);
-        }
+        const res = await fetch(`${LOGIN_URL}`, {
+          method: "POST",
+          body: JSON.stringify(credentials),
+          headers: { "Content-Type": "application/json" }
+        });
+        const { data } = await res.json();
+        const user = data;
+        if(!user) return null;
+        return user;
       }
     })
   ],
